@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { Icon } from '@iconify/react';
 // @mui
-import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-const Iconify = forwardRef(({ icon, width = 20, sx, ...other }, ref) => (
-  <Box
+const Iconify = forwardRef(({ icon, height = 24, sx, ...other }, ref) => (
+  <Icon
     ref={ref}
-    component={Icon}
+    // component={Icon}
+    height={height}
     icon={icon}
-    sx={{ width, height: width, flexShrink: 0, ...sx }}
+    sx={{ flexShrink: 0, ...sx }}
     {...other}
   />
 ));
@@ -19,7 +19,7 @@ const Iconify = forwardRef(({ icon, width = 20, sx, ...other }, ref) => (
 Iconify.propTypes = {
   icon: PropTypes.node,
   sx: PropTypes.object,
-  width: PropTypes.number,
+  height: PropTypes.number,
 };
 
 export default Iconify;

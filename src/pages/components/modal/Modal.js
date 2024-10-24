@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle, IconButton, Box } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useSettingsContext } from '../settings';
-import Iconify from '../iconify/Iconify';
+import { useSettingsContext } from 'src/components/settings';
+import Iconify from 'src/components/iconify' ;
 
 const Modal = () => {
   const router = useRouter();

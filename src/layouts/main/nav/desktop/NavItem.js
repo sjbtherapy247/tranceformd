@@ -6,7 +6,7 @@ import NextLink from 'next/link';
 // @mui
 import { Link } from '@mui/material';
 // components
-import Iconify from 'src/components/iconify';
+// import Iconify from 'src/components/iconify';
 //
 import { StyledNavItem } from './styles';
 
@@ -25,9 +25,10 @@ export const NavItem = forwardRef(
         open={open}
         {...other}
       >
+        {/* {title.toUpperCase()} */}
         {title}
 
-        {!!children && <Iconify width={16} icon="carbon:chevron-down" sx={{ ml: 1 }} />}
+        {/* {!!children && <Iconify width={16} icon="carbon:chevron-down" sx={{ ml: 1 }} />} */}
       </StyledNavItem>
     );
 

@@ -14,8 +14,9 @@ export const StyledNavItem = styled(ListItemButton, {
   height: NAV.H_ITEM,
   // Active
   ...(active && {
-    color: theme.palette.primary.main,
+    // color: theme.palette.primary.light,
+    color: theme.palette.text.primary,
     ...theme.typography.subtitle2,
-    backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
+    backgroundColor: alpha(theme.palette.primary.main, 0.3),
   }),
 }));

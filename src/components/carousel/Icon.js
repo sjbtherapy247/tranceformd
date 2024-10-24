@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import Iconify from '../iconify';
+import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export function LeftIcon({ icon = 'carbon:chevron-right', isRTL }) {
+export function LeftIcon({ icon = 'carbon:chevron-left', isRTL }) {
   return (
     <Iconify
       icon={icon}

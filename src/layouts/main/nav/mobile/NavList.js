@@ -3,11 +3,11 @@ import { useState } from 'react';
 // next
 import { useRouter } from 'next/router';
 // @mui
-import { Collapse } from '@mui/material';
+// import { Collapse } from '@mui/material';
 // hooks
 import useActiveLink from 'src/hooks/useActiveLink';
 // components
-import { NavSectionVertical } from 'src/components/nav-section';
+// import { NavSectionVertical } from 'src/components/nav-section';
 //
 import NavItem from './NavItem';
 
@@ -16,7 +16,7 @@ import NavItem from './NavItem';
 export default function NavList({ item }) {
   const { pathname } = useRouter();
 
-  const { path, children } = item;
+  const { path /* , children */ } = item;
 
   const { isExternalLink } = useActiveLink(path);
 
@@ -32,11 +32,11 @@ export default function NavList({ item }) {
         isExternalLink={isExternalLink}
       />
 
-      {!!children && (
+      {/* {!!children && (
         <Collapse in={open} unmountOnExit>
           <NavSectionVertical data={children} />
         </Collapse>
-      )}
+      )} */}
     </>
   );
 }

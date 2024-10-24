@@ -11,9 +11,9 @@ export default function NavDesktop({ data, sx }) {
     <Stack
       component="nav"
       direction="row"
-      spacing={6}
+      spacing={3}
       sx={{
-        ml: 6,
+        ml: 4,
         height: 1,
         ...sx,
       }}

@@ -2,14 +2,18 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 // next
 import { useRouter } from 'next/router';
+// next
+import NextLink from 'next/link';
 // @mui
-import { List, Drawer, IconButton, Button, Stack } from '@mui/material';
+import { Link, List, Drawer, IconButton, Button, Box } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 // config
 import { NAV } from 'src/config-global';
 // components
-import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
+//
+import Image from 'src/components/image/Image';
 //
 import NavList from './NavList';
 
@@ -17,7 +21,7 @@ import NavList from './NavList';
 
 export default function NavMobile({ data }) {
   const { pathname } = useRouter();
-
+  const theme = useTheme();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -43,6 +47,7 @@ export default function NavMobile({ data }) {
 
       <Drawer
         open={open}
+        // anchor="right"
         onClose={handleClose}
         PaperProps={{
           sx: {
@@ -52,7 +57,11 @@ export default function NavMobile({ data }) {
         }}
       >
         <Scrollbar>
-          <Logo sx={{ mx: 2.5, my: 3 }} />
+          <Link component={NextLink} href="/">
+            <Box sx={{ lineHeight: 0, position: 'relative', height: '64px', width: '185.44px' }}>
+              <Image src="/assets/sjb-logo/hnav-logo.jpg" alt="go home" sx={{ height: 1 }} />
+            </Box>
+          </Link>
 
           <List component="nav" disablePadding>
             {data.map((link) => (
@@ -60,11 +69,13 @@ export default function NavMobile({ data }) {
             ))}
           </List>
 
-          <Stack spacing={1.5} sx={{ p: 3 }}>
-            <Button fullWidth variant="contained" color="inherit">
-              Buy Now
-            </Button>
-          </Stack>
+          <Box sx={{ p: 3 }}>
+            <Link component={NextLink} href="/services#hypnotherapyPackages">
+              <Button fullWidth variant="contained" onClick={handleClose}>
+                Book Now
+              </Button>
+            </Link>
+          </Box>
         </Scrollbar>
       </Drawer>
     </>

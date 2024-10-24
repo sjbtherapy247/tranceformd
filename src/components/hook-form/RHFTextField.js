@@ -16,6 +16,7 @@ export default function RHFTextField({ name, helperText, ...other }) {
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
+          variant="outlined"
           fullWidth
           value={typeof field.value === 'number' && field.value === 0 ? '' : field.value}
           error={!!error}

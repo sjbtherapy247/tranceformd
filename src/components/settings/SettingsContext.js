@@ -1,40 +1,43 @@
 import PropTypes from 'prop-types';
-import { useMemo, useState, useEffect, useContext, useCallback, createContext } from 'react';
+import { useMemo, useState, useEffect, useContext, useCallback, createContext, useReducer } from 'react';
+// firebase
+import { auth, db } from 'src/lib/createFirebaseApp';
+
+import { useAuthState } from 'react-firebase-hooks/auth';
+// import { connectAuthEmulator } from 'firebase/auth';
+
 //
+import { onValue, ref } from 'firebase/database';
 import { defaultSettings } from './config-setting';
-import { defaultPreset, getPresets, presetsOption } from './presets';
+import reducer from './reducer';
 
 // ----------------------------------------------------------------------
+// if (process.env.NODE_ENV_T === 'development') {
+//   connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+// }
 
+// console.log(db, auth);
 const initialState = {
+  // reducer
+  alert: { open: false, severity: 'info', message: '', variant: 'filled', color: '', duration: 1000 },
+  modal: { open: false, title: '', content: '' },
+  loadingSpinner: false,
+  // themeMode, themeDirection etc..
   ...defaultSettings,
-  // Mode
+  // toggle Mode
   onToggleMode: () => {},
-  // Direction
-  onToggleDirection: () => {},
-  // Color
-  onChangeColorPresets: () => {},
-  presetsColor: defaultPreset,
-  presetsOption: [],
-  // Reset
-  onResetSetting: () => {},
-  // Open
-  open: false,
-  onToggle: () => {},
-  onOpen: () => {},
-  onClose: () => {},
-  // Not default
-  notDefault: false,
+  // Global state vars
 };
 
 // ----------------------------------------------------------------------
 
 export const SettingsContext = createContext(initialState);
 
+// context settings hook
 export const useSettingsContext = () => {
   const context = useContext(SettingsContext);
 
-  if (!context) throw new Error('useSettingsContext must be use inside SettingsProvider');
+  if (!context) throw new Error('useSettingsContext must be used inside SettingsProvider');
 
   return context;
 };
@@ -42,20 +45,66 @@ export const useSettingsContext = () => {
 // ----------------------------------------------------------------------
 
 export function SettingsProvider({ children }) {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [themeMode, setThemeMode] = useState(defaultSettings.themeMode);
-  const [themeDirection, setThemeDirection] = useState(defaultSettings.themeDirection);
-  const [themeColorPresets, setThemeColorPresets] = useState(defaultSettings.themeColorPresets);
+  const [themeMode, setThemeMode] = useState(initialState.themeMode);
+  const [productsTable, setProductsTable] = useState([]);
+  const [client, setClient] = useState([]);
+  const [custId, setCustId] = useState('');
+  const [avatar, setAvatar] = useState('');
+
+  const [user, loading, error] = useAuthState(auth);
+
+  const host = process.env.NODE_ENV === 'development' ? 'https://192.168.0.220:3001' : 'https://sjbtherapy.com';
 
   useEffect(() => {
-    const mode = getCookie('themeMode') || defaultSettings.themeMode;
-    const direction = getCookie('themeDirection') || defaultSettings.themeDirection;
-    const colorPresets = getCookie('themeColorPresets') || defaultSettings.themeColorPresets;
+    const purchaseRef = ref(db, 'purchases/');
+    const custRef = ref(db, 'customers/');
+    let listener = () => {};
+    let custlistener = () => {};
+    if (user) {
+      if (user.photoURL) setAvatar(user.photoURL);
+      listener = onValue(purchaseRef, (snapshot) => {
+        if (snapshot.val()) {
+          const items = Object?.values(snapshot.val());
+          console.log('purchases loaded');
+          setProductsTable([...items.filter((item) => item?.billing_details?.email === user.email)]);
+        }
+      });
+      custlistener = onValue(custRef, (snapshot) => {
+        if (snapshot.val()) {
+          const customers = Object?.values(snapshot.val());
+          const cust = customers.filter((item) => item.email === user.email);
+          setCustId(cust[0]?.id);
+          setClient({ ...cust[0] });
+        }
+      });
+    } else {
+      console.log('App logged out');
+      setProductsTable([]);
+      setClient({});
+      setCustId('');
+      // onValue(custRef, (snapshot) => {
+      //   if (snapshot.val()) {
+      //     const customers = Object?.values(snapshot.val());
 
+      //     console.log(' logged out custIds loaded');
+      //     console.log(customers);
+      //     setClient(customers);
+      //   }
+      // });
+    }
+    return () => {
+      listener();
+      custlistener();
+    };
+  }, [user]);
+
+  // looks for cookie in local storage with thememode - so that theme persists across tabs
+  useEffect(() => {
+    const mode = getCookie('themeMode') || defaultSettings.themeMode;
     setThemeMode(mode);
-    setThemeDirection(direction);
-    setThemeColorPresets(colorPresets);
   }, []);
 
   // Mode
@@ -65,89 +114,39 @@ export function SettingsProvider({ children }) {
     setCookie('themeMode', value);
   }, [themeMode]);
 
-  // Direction
-  const onToggleDirection = useCallback(() => {
-    const value = themeDirection === 'rtl' ? 'ltr' : 'rtl';
-    setThemeDirection(value);
-    setCookie('themeDirection', value);
-  }, [themeDirection]);
-
-  // Color
-  const onChangeColorPresets = useCallback((event) => {
-    const { value } = event.target;
-    setThemeColorPresets(value);
-    setCookie('themeColorPresets', value);
-  }, []);
-
-  // Reset
-  const onResetSetting = useCallback(() => {
-    setThemeMode(defaultSettings.themeMode);
-    setThemeDirection(defaultSettings.themeDirection);
-    setThemeColorPresets(defaultSettings.themeColorPresets);
-    removeCookie('themeMode');
-    removeCookie('themeDirection');
-    removeCookie('themeColorPresets');
-  }, []);
-
-  const onToggle = useCallback(() => {
-    setOpen(!open);
-  }, [open]);
-
-  const onOpen = useCallback(() => {
-    setOpen(true);
-  }, []);
-
-  const onClose = useCallback(() => {
-    setOpen(false);
-  }, []);
-
-  const notDefault =
-    themeMode !== defaultSettings.themeMode ||
-    themeDirection !== defaultSettings.themeDirection ||
-    themeColorPresets !== defaultSettings.themeColorPresets;
-
   const memoizedValue = useMemo(
     () => ({
+      // reducer
+      state,
+      dispatch,
       // Mode
       themeMode,
+      avatar,
+      setAvatar,
       onToggleMode,
-      // Direction
-      themeDirection,
-      onToggleDirection,
-      // Color
-      themeColorPresets,
-      onChangeColorPresets,
-      presetsOption,
-      presetsColor: getPresets(themeColorPresets),
-      // Reset
-      onResetSetting,
-      // Open
-      open,
-      onToggle,
-      onOpen,
-      onClose,
-      // Not default
-      notDefault,
+      loading,
+      productsTable,
+      custId,
+      client,
+      user,
+      host,
     }),
     [
-      // Mode
+      // dependency array
+      // reducer
+      state,
+      dispatch,
+      // the rest
       themeMode,
+      avatar,
+      setAvatar,
       onToggleMode,
-      // Color
-      themeColorPresets,
-      onChangeColorPresets,
-      // Direction
-      themeDirection,
-      onToggleDirection,
-      // Reset
-      onResetSetting,
-      // Open
-      open,
-      onToggle,
-      onOpen,
-      onClose,
-      // Not default
-      notDefault,
+      loading,
+      productsTable,
+      custId,
+      client,
+      user,
+      host,
     ]
   );
 
@@ -162,9 +161,7 @@ SettingsProvider.propTypes = {
 
 function getCookie(name) {
   if (typeof document === 'undefined') {
-    throw new Error(
-      'getCookie() is not supported on the server. Fallback to a different value when rendering on the server.'
-    );
+    throw new Error('getCookie() is not supported on the server. Fallback to a different value when rendering on the server.');
   }
 
   const value = `; ${document.cookie}`;
@@ -185,6 +182,6 @@ function setCookie(name, value, exdays = 3) {
   document.cookie = `${name}=${value};${expires};path=/`;
 }
 
-function removeCookie(name) {
-  document.cookie = `${name}=;path=/;max-age=0`;
-}
+// function removeCookie(name) {
+//   document.cookie = `${name}=;path=/;max-age=0`;
+// }

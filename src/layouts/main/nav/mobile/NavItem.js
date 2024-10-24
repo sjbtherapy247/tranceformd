@@ -4,14 +4,14 @@ import NextLink from 'next/link';
 // @mui
 import { Link, ListItemText, ListItemIcon } from '@mui/material';
 // components
-import Iconify from 'src/components/iconify';
+// import Iconify from 'src/components/iconify';
 //
 import { StyledNavItem } from './styles';
 
 // ----------------------------------------------------------------------
 
 export default function NavItem({ item, open, active, isExternalLink, ...other }) {
-  const { title, path, icon, children } = item;
+  const { title, path, icon /* , children */ } = item;
 
   const renderContent = (
     <StyledNavItem active={active} {...other}>
@@ -19,13 +19,13 @@ export default function NavItem({ item, open, active, isExternalLink, ...other }
 
       <ListItemText disableTypography primary={title} />
 
-      {!!children && (
+      {/* {!!children && (
         <Iconify
           width={16}
           icon={open ? 'carbon:chevron-down' : 'carbon:chevron-right'}
           sx={{ ml: 1 }}
         />
-      )}
+      )} */}
     </StyledNavItem>
   );
 
@@ -38,10 +38,10 @@ export default function NavItem({ item, open, active, isExternalLink, ...other }
     );
   }
 
-  // Has child
-  if (children) {
-    return renderContent;
-  }
+  // // Has child
+  // if (children) {
+  //   return renderContent;
+  // }
 
   // Default
   return (

@@ -2,18 +2,7 @@ import PropTypes from 'prop-types';
 // form
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
-import {
-  Box,
-  Chip,
-  Select,
-  Checkbox,
-  MenuItem,
-  TextField,
-  InputLabel,
-  FormControl,
-  OutlinedInput,
-  FormHelperText,
-} from '@mui/material';
+import { Box, Chip, Select, Checkbox, MenuItem, TextField, InputLabel, FormControl, OutlinedInput, FormHelperText } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -70,17 +59,7 @@ RHFSelect.propTypes = {
 
 // ----------------------------------------------------------------------
 
-export function RHFMultiSelect({
-  name,
-  chip,
-  label,
-  options,
-  checkbox,
-  placeholder,
-  helperText,
-  sx,
-  ...other
-}) {
+export function RHFMultiSelect({ name, chip, label, options, checkbox, placeholder, helperText, sx, ...other }) {
   const { control } = useFormContext();
 
   const renderValues = (selectedIds) => {
@@ -172,9 +151,7 @@ export function RHFMultiSelect({
             })}
           </Select>
 
-          {(!!error || helperText) && (
-            <FormHelperText error={!!error}>{error ? error?.message : helperText}</FormHelperText>
-          )}
+          {(!!error || helperText) && <FormHelperText error={!!error}>{error ? error?.message : helperText}</FormHelperText>}
         </FormControl>
       )}
     />

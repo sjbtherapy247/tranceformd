@@ -13,8 +13,8 @@ export const StyledNavItem = styled(ListItemButton, {
     position: 'absolute',
     width: 6,
     height: 6,
-    left: -12,
-    backgroundColor: theme.palette.primary.main,
+    left: -10,
+    backgroundColor: theme.palette.mode === 'light' ? theme.palette.common.black : theme.palette.common.white,
   };
 
   return {
@@ -27,7 +27,10 @@ export const StyledNavItem = styled(ListItemButton, {
     '&:hover': {
       opacity: 0.8,
       backgroundColor: 'transparent',
-      '&::before': dotActiveStyle,
+      '&::before': {
+        ...dotActiveStyle,
+        opacity: 0.5,
+      },
     },
     // Sub item
     ...(subItem && {
@@ -36,7 +39,7 @@ export const StyledNavItem = styled(ListItemButton, {
     }),
     // Active
     ...(active && {
-      color: theme.palette.text.primary,
+      // color: theme.palette.text.primary,
       fontWeight: theme.typography.fontWeightSemiBold,
       '&::before': dotActiveStyle,
     }),
@@ -61,8 +64,8 @@ export const StyledNavItem = styled(ListItemButton, {
 // ----------------------------------------------------------------------
 
 export const StyledMenu = styled(Paper)(({ theme }) => ({
-  top: 72,
-  width: '100%',
+  top: 64,
+  width: '90%',
   borderRadius: 0,
   position: 'fixed',
   zIndex: theme.zIndex.modal,

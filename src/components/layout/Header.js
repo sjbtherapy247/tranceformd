@@ -13,7 +13,6 @@ import {
   // Container,
   Tooltip,
   IconButton,
-  Badge,
   Avatar,
 } from '@mui/material';
 // hooks
@@ -28,10 +27,10 @@ import Image from 'src/components/image/Image';
 import Iconify from 'src/components/iconify/Iconify';
 
 import { bgBlur } from 'src/utils/cssStyles';
-import { useEffect, useState } from 'react';
-import _mock from 'src/_mock/_mock';
-import { NavMobile, NavDesktop, navConfig } from '../nav';
-import AccountMenu from '../AccountMenu';
+import { useState } from 'react';
+// import _mock from 'src/_mock/_mock';
+import { NavMobile, NavDesktop, navConfig } from 'src/layouts/main/nav';
+import AccountMenu from 'src/layouts/main/AccountMenu';
 
 // ----------------------------------------------------------------------
 

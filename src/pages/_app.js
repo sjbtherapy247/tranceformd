@@ -1,6 +1,6 @@
 // Essential global styles
 import 'simplebar-react/dist/simplebar.min.css'; // Scroll bar
-// import 'yet-another-react-lightbox/styles.css'; // Lightbox
+import 'yet-another-react-lightbox/dist/styles.css'; // Lightbox
 import 'slick-carousel/slick/slick.css'; // Carousel
 import 'slick-carousel/slick/slick-theme.css'; // Carousel Theme
 
@@ -25,8 +25,8 @@ import { SettingsProvider } from 'src/components/settings';
 import MotionLazyContainer from 'src/components/animate/MotionLazyContainer';
 
 // Vercel Tools
-// import { SpeedInsights } from '@vercel/speed-insights/next';
-// import { Analytics } from '@vercel/analytics/react';
+ import { SpeedInsights } from '@vercel/speed-insights';
+ import { Analytics } from '@vercel/analytics';
 
 // Dynamically loaded components
 const Modal = dynamic(() => import('src/components/modal/Modal'), { ssr: false });
