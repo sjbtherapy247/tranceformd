@@ -24,7 +24,6 @@
     "@emotion/styled": "^11.10.6",
     "@firebase/firestore": "^4.7.4",
     "@hookform/resolvers": "^3.0.0",
-    "@iconify/react": "^4.1.0",
     "@mdx-js/loader": "^3.1.0",
     "@mui/lab": "^5.0.0-alpha.124",
     "@mui/material": "^5.11.15",
@@ -37,6 +36,7 @@
     "firebase": "^11.0.1",
     "framer-motion": "^10.9.2",
     "google-map-react": "^2.2.0",
+    "iconify": "^1.4.0",
     "lodash.merge": "^4.6.2",
     "next": "^13.2.4",
     "next-seo": "^6.1.0",
@@ -60,6 +60,7 @@
   "devDependencies": {
     "@babel/core": "^7.21.3",
     "@babel/eslint-parser": "^7.21.3",
+    "@iconify/react": "^5.0.2",
     "eslint": "^8.37.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",

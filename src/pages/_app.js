@@ -1,6 +1,6 @@
 // Essential global styles
 import 'simplebar-react/dist/simplebar.min.css'; // Scroll bar
-import 'yet-another-react-lightbox/styles.css'; // Lightbox
+// import 'yet-another-react-lightbox/styles.css'; // Lightbox
 import 'slick-carousel/slick/slick.css'; // Carousel
 import 'slick-carousel/slick/slick-theme.css'; // Carousel Theme
 
