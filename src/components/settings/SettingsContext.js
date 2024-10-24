@@ -56,7 +56,7 @@ export function SettingsProvider({ children }) {
 
   const [user, loading, error] = useAuthState(auth);
 
-  const host = process.env.NODE_ENV === 'development' ? 'https://192.168.0.220:3001' : 'https://sjbtherapy.com';
+  const host = process.env.NODE_ENV === 'development' ? 'https://192.168.0.220:3001' : 'https://tranceformd.com';
 
   useEffect(() => {
     const purchaseRef = ref(db, 'purchases/');
