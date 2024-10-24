@@ -1,24 +1,23 @@
-// next
-import Head from 'next/head';
-// layouts
-import MainLayout from 'src/layouts/main';
-// sections
-import { CareerLandingView } from 'src/sections/_career/view';
+import { MDXRemote } from 'next-mdx-remote';
+import { getMDXContent } from 'src/utils/mdx';
+import MainLayout from 'src/components/layout/MainLayout';
 
-// ----------------------------------------------------------------------
-
-CareerLandingPage.getLayout = (page) => <MainLayout>{page}</MainLayout>;
-
-// ----------------------------------------------------------------------
-
-export default function CareerLandingPage() {
+export default function Service({ content }) {
   return (
-    <>
-      <Head>
-        <title>Landing | ZONE UI</title>
-      </Head>
-
-      <CareerLandingView />
-    </>
+    <MainLayout>
+      <article>
+        <MDXRemote {...content} />
+      </article>
+    </MainLayout>
   );
+}
+
+export async function getStaticProps({ params }) {
+  const { content } = await getMDXContent(params.service, 'services');
+  return { props: { content } };
+}
+
+export async function getStaticPaths() {
+  const paths = getAllPaths('services');
+  return { paths, fallback: false };
 }

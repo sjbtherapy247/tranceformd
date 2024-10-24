@@ -25,8 +25,8 @@ import { SettingsProvider } from 'src/components/settings';
 import MotionLazyContainer from 'src/components/animate/MotionLazyContainer';
 
 // Vercel Tools
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Analytics } from '@vercel/analytics/react';
+// import { SpeedInsights } from '@vercel/speed-insights/next';
+// import { Analytics } from '@vercel/analytics/react';
 
 // Dynamically loaded components
 const Modal = dynamic(() => import('src/components/modal/Modal'), { ssr: false });
