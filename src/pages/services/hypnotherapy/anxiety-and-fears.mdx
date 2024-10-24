@@ -1,23 +1,16 @@
-import { MDXRemote } from 'next-mdx-remote';
-import { getMDXContent } from 'src/utils/mdx';
-import MainLayout from 'src/components/layout/MainLayout';
+---
+title: "Quit Smoking"
+description: "Our Quit Smoking program uses powerful hypnotherapy techniques to help you overcome cravings."
+keywords: "Quit Smoking, Hypnotherapy, Stop Smoking, No Smoking"
+heroImage: "/assets/images/services/quit-smoking.jpg"
+slug: "quit-smoking"
+---
 
-export default function Service({ content }) {
-  return (
-    <MainLayout>
-      <article>
-        <MDXRemote {...content} />
-      </article>
-    </MainLayout>
-  );
-}
+## Quit Smoking Service
 
-export async function getStaticProps({ params }) {
-  const { content } = await getMDXContent(params.service, 'services');
-  return { props: { content } };
-}
+Quit smoking easily with our evidence-based approach using hypnotherapy. Here's what you'll get:
 
-export async function getStaticPaths() {
-  const paths = getAllPaths('services');
-  return { paths, fallback: false };
-}
+- Customized sessions
+- Proven techniques
+- Long-lasting results
+ 
